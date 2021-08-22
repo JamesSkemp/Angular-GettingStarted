@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { IProduct } from './product';
 
 @Injectable({
@@ -17,6 +17,12 @@ export class ProductService {
       // tap = look at stream - useful for debugging or logging
       tap(data => console.log(JSON.stringify(data))),
       catchError(this.handleError)
+    );
+  }
+
+  getProduct(id: number): Observable<IProduct | undefined> {
+    return this.getProducts().pipe(
+      map((products: IProduct[]) => products.find(p => p.productId === id))
     );
   }
 

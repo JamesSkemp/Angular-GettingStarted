@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IProduct } from './product';
+import { ProductService } from './product.service';
 
 @Component({
   templateUrl: './product-detail.component.html',
@@ -9,8 +10,9 @@ import { IProduct } from './product';
 export class ProductDetailComponent implements OnInit {
   pageTitle = 'Product Detail';
   product: IProduct | undefined;
+  errorMessage = '';
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router, private service: ProductService) { }
 
   ngOnInit(): void {
     // Get the id one time.
@@ -19,6 +21,12 @@ export class ProductDetailComponent implements OnInit {
     /*this.route.paramMap.subscribe(
       params => console.log(params.get('id'))
     )*/
+    if (id) {
+      this.service.getProduct(id).subscribe({
+        next: product => this.product = product,
+        error: e => this.errorMessage = e
+      });
+    }
   }
 
   onBack(): void {
