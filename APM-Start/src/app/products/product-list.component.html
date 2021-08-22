@@ -12,7 +12,7 @@
           [(ngModel)]="listFilter" />
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="listFilter">
       <div class="col-md-6">
         <h4>Filtered by: {{listFilter}}</h4>
       </div>
@@ -30,7 +30,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let product of products">
+          <tr *ngFor="let product of filteredProducts">
             <td><img *ngIf="showImage"
               [src]="product.imageUrl" [alt]="product.productName" [title]="product.productName"
               [style.width.px]="imageWidth"
